@@ -6,13 +6,13 @@
 		do (if (funcall fun k) (push (aref A k) res)))
 	(make-array (length res) :initial-contents (reverse res))))
 
-(defun fft (A &optional (c 1) (n (length A)))
+(defun fft (A &optional (inv nil) (n (length A)))
   (if (equal n 1) A
     (let*
         ((omega 1)
-         (omega-n (expt (exp 1) (* c (/ 2 n) pi (complex 0 1) )))
-         (even (fft (split-poly-even-odd A #'evenp) c))
-         (odd (fft (split-poly-even-odd A #'oddp) c))
+         (omega-n (expt (exp 1) (* (if inv -1 1) (/ 2 n) pi (complex 0 1) )))
+         (even (fft (split-poly-even-odd A #'evenp) inv))
+         (odd (fft (split-poly-even-odd A #'oddp) inv))
          (y (make-array n)))
       (loop for k from 0 to (- (/ n 2) 1)
             do (setf (aref y k) (+ (aref even k) (* omega (aref odd k)))
@@ -21,7 +21,7 @@
       y)))
 
 (defun inverse-fft (C)
-  (let ((ans (fft C -1))
+  (let ((ans (fft C t))
         (n (length C)))
     (loop for i from 0 to (- n 1)
           do (progn

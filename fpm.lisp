@@ -1,5 +1,3 @@
-;;TODO: correct small numeric errors, remove imaginary parts of the answer which tend towards zero
-
 (defun split-poly-even-odd (A fun)
 	(let ((res))
 	(loop for k from 0 to (- (length A) 1)
@@ -20,12 +18,17 @@
                      omega (* omega omega-n)))
       y)))
 
-(defun inverse-fft (C)
+(defun inverse-fft (C &optional (precision (/ 1 1000000)))
   (let ((ans (fft C t))
         (n (length C)))
     (loop for i from 0 to (- n 1)
-          do (progn
-               (setf (aref ans i) (/ (aref ans i) n))))
+          do (multiple-value-bind (real imag) (values (realpart (/ (aref ans i) n)) (imagpart (/ (aref ans i) n)))
+			(if (< (abs imag) precision)
+ 				(multiple-value-bind (q r) (round real)
+					(if (< (abs r) precision) (setf (aref ans i) q)
+						(setf (aref ans i) real)))
+				(setf (aref ans i) (/ (aref ans i) n)))))
+				
     ans))
 	
 (defun round-power-of-two (n)
@@ -37,11 +40,11 @@
           (push (aref A i) res)))
   (make-array new-size :initial-contents (reverse res)))
   
-(defun fast-poly-multiplication (A B)
+(defun fast-poly-multiplication (A B &optional (precision (/ 1 1000000)))
 	(let* ((n  (if (> (length A) (length B)) (round-power-of-two (* 2 (length A))) (round-power-of-two (* 2 (length B)))))
 		(dft-A (fft (resize-array A n)))
 		(dft-B (fft (resize-array B n)))
 		(ans (make-array n)))
 	(loop for i from 0 to (- n 1)
 		do (setf (aref ans i) (* (aref dft-A i) (aref dft-B i))))
-	(inverse-fft ans)))
+	(inverse-fft ans precision)))

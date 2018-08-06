@@ -11,6 +11,6 @@ After that, call the fast-poly-multiplication function with two arrays of numeri
 And the answer is, of course, *2 + 3x + 4x<sup>2</sup> + 2x<sup>3</sup> + x<sup>4</sup>*, here represented as `#(2 3 4 2 1 0 0 0)`.
 
 The inverse of the fourier transform was also implemented, because it's a step in this method of polynomial multiplication. To test it we can run:
-`(inverse-fft (fft #(3 5 6 2 1 7 0 0)))`[^1] and obtain the argument itself, `#(3 5 6 2 1 7 0 0)`.
+`(inverse-fft (fft #(3 5 6 2 1 7 0 0)))` <sup>[1](#myfootnote1)</sup> and obtain the argument itself, `#(3 5 6 2 1 7 0 0)`.
 
-[^1]: The argument for *fft* must be an array of 2^*k* numeric elements, k = 0, 1, 2, 3,... 
+<a name="myfootnote1">1</a>: The argument for *fft* must be an array of 2^*k* numeric elements, k = 0, 1, 2, 3,... 

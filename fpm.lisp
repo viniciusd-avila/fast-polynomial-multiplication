@@ -28,7 +28,6 @@
 					(if (< (abs r) precision) (setf (aref ans i) q)
 						(setf (aref ans i) real)))
 				(setf (aref ans i) (/ (aref ans i) n)))))
-				
     ans))
 	
 (defun round-power-of-two (n)

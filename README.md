@@ -13,4 +13,10 @@ And the answer is, of course, *2 + 3x + 4x<sup>2</sup> + 2x<sup>3</sup> + x<sup>
 The inverse of the fourier transform was also implemented, because it's a step in this method of polynomial multiplication. To test it we can run:
 `(inverse-fft (fft #(3 5 6 2 1 7 0 0)))` <sup>[1](#myfootnote1)</sup> and obtain the argument itself, `#(3 5 6 2 1 7 0 0)`.
 
+## Resources
+
+- *[Introduction to algorithms](https://amzn.com/0262032937)*, chapter 30.
+- *[Divide & Conquer: FFT](https://www.youtube.com/watch?v=iTMn0Kt18tg)*, MIT lecture by Erik Demaine for the *Design and Analysis of Algorithms* course of Spring 2015
+- *[Polynomials and the Fast Fourier Transform (FFT): Algorithm Design and Analysis (Week 7)](http://web.cecs.pdx.edu/~maier/cs584/Lectures/lect07b-11-MG.pdf)*, lecture by Dr. David Maier lecture.
+
 <a name="myfootnote1">1</a>: The argument for *fft* must be an array of 2^*k* numeric elements, k = 0, 1, 2, 3,... 
